@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>X Composer</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+    <main class="composer-page">
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <header class="composer-header">
+
+            <h1 class="composer-title">
+                Duplicate post
+            </h1>
+
+            <div class="post-type-container">
+
+                <button
+                    class="post-button"
+                    id="postButton"
+                    type="button"
+                >
+                    Post
+                </button>
+
+                <button
+                    class="post-dropdown"
+                    type="button"
+                    aria-label="Change post type"
+                >
+                    ▼
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             MAIN CONTENT
+        ====================================================== -->
+
+        <div class="composer-layout">
+
+
+            <!-- =================================================
+                 LEFT SIDE - FORM
+            ================================================== -->
+
+            <section class="composer-card">
+
+
+                <!-- =================================================
+                     NAME
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="creativeName"
+                    >
+
+                        <span>
+                            Name
+                        </span>
+
+                        <span
+                            class="form-label-counter"
+                            id="nameCounter"
+                        >
+                            18/255
+                        </span>
+
+                    </label>
+
+
+                    <input
+                        class="form-input"
+                        id="creativeName"
+                        type="text"
+                        maxlength="255"
+                        placeholder="Untitled ad (optional)"
+                        value="[Copy] Untitled ad"
+                    >
+
+                </div>
+
+
+                <!-- =================================================
+                     ACCOUNT
+                ================================================== -->
+
+                <div class="account-bar">
+
+                    <div class="account-avatar">
+
+                        <img
+                            src="https://pbs.twimg.com/profile_images/2041948336929042433/F5I82_oY_normal.jpg"
+                            alt="Profile"
+                        >
+
+                    </div>
+
+
+                    <div class="account-info">
+
+                        <span class="account-name">
+                            Mr.Grumpy
+                        </span>
+
+                        <span class="verified-badge">
+                            ✓
+                        </span>
+
+                        <span class="account-username">
+                            @MrGrumpyRk
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     POST TEXT
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="postText"
+                    >
+
+                        <span>
+                            Post text
+                        </span>
+
+                    </label>
+
+
+                    <textarea
+                        class="post-textarea"
+                        id="postText"
+                        maxlength="280"
+                        placeholder="What's happening?"
+                    ></textarea>
+
+
+                    <div class="textarea-bottom">
+
+                        <button
+                            class="reply-selector"
+                            type="button"
+                        >
+
+                            <span class="globe-icon">
+                                ◉
+                            </span>
+
+                            <span>
+                                Everyone can reply
+                            </span>
+
+                            <span>
+                                ▼
+                            </span>
+
+                        </button>
+
+
+                        <span
+                            class="character-count"
+                            id="characterCount"
+                        >
+                            0
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     DESTINATION
+                ================================================== -->
+
+                <section class="destination-section">
+
+                    <span class="section-label">
+                        Destination
+                    </span>
+
+
+                    <!-- Only Website -->
+
+                    <button
+                        class="destination-card active"
+                        id="websiteDestination"
+                        type="button"
+                    >
+
+                        <span class="destination-content">
+
+                            <span class="destination-title">
+                                Website
+                            </span>
+
+                            <span class="destination-description">
+                                Include a call to action to your website.
+                            </span>
+
+                        </span>
+
+
+                        <span
+                            class="destination-check"
+                            id="destinationCheck"
+                        >
+                            ✓
+                        </span>
+
+                    </button>
+
+
+                    <!-- =================================================
+                         WEBSITE DETAILS
+                    ================================================== -->
+
+                    <div
+                        class="website-details"
+                        id="websiteDetails"
+                    >
+
+
+                        <!-- WEBSITE URL -->
+
+                        <div class="form-group website-field">
+
+                            <label
+                                class="form-label"
+                                for="websiteUrl"
+                            >
+
+                                <span>
+                                    Website URL
+                                    <span class="required-star">
+                                        *
+                                    </span>
+                                </span>
+
+                            </label>
+
+
+                            <div class="url-input-wrapper">
+
+                                <span class="url-prefix">
+                                    https://
+                                </span>
+
+                                <input
+                                    class="form-input url-input"
+                                    id="websiteUrl"
+                                    type="text"
+                                    placeholder="example.com"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- HEADLINE -->
+
+                        <div class="form-group website-field">
+
+                            <label
+                                class="form-label"
+                                for="headline"
+                            >
+
+                                <span>
+                                    Headline
+                                    <span class="optional-text">
+                                        (optional)
+                                    </span>
+                                </span>
+
+                            </label>
+
+
+                            <input
+                                class="form-input"
+                                id="headline"
+                                type="text"
+                                maxlength="70"
+                                placeholder="Enter a headline"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     MEDIA
+                ================================================== -->
+
+                <section class="media-section">
+
+                    <div class="media-label">
+
+                        <span>
+                            Media
+                        </span>
+
+                        <span class="media-required">
+                            *
+                        </span>
+
+                        <span class="media-required-text">
+                            Required for card ads
+                        </span>
+
+                    </div>
+
+
+                    <!-- Selected media -->
+
+                    <div
+                        class="media-item"
+                        id="mediaItem"
+                        style="display: none;"
+                    >
+
+                        <div class="media-thumbnail">
+
+                            <img
+                                id="mediaThumbnail"
+                                src=""
+                                alt="Selected media"
+                            >
+
+                        </div>
+
+
+                        <div class="media-details">
+
+                            <p
+                                class="media-name"
+                                id="mediaName"
+                            >
+                                Image
+                            </p>
+
+                            <p class="media-date">
+                                Selected media
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            class="remove-media"
+                            id="removeMedia"
+                            type="button"
+                        >
+                            Remove
+                        </button>
+
+                    </div>
+
+
+                    <!-- Media buttons -->
+
+                    <div class="media-buttons">
+
+                        <button
+                            class="media-button"
+                            id="addMediaButton"
+                            type="button"
+                        >
+
+                            <span>
+                                ＋
+                            </span>
+
+                            Add media
+
+                        </button>
+
+
+                        <button
+                            class="media-button"
+                            id="generateImageButton"
+                            type="button"
+                        >
+
+                            <span>
+                                ◇
+                            </span>
+
+                            Generate image
+
+                        </button>
+
+                    </div>
+
+
+                    <input
+                        type="file"
+                        id="mediaInput"
+                        accept="image/*,video/*"
+                        hidden
+                    >
+
+                </section>
+
+
+                <!-- =================================================
+                     OPTIONS
+                ================================================== -->
+
+                <section class="options-section">
+
+                    <div class="checkbox-group">
+
+
+                        <!-- Made with AI -->
+
+                        <div class="checkbox-row">
+
+                            <input
+                                class="checkbox"
+                                type="checkbox"
+                                id="madeWithAI"
+                            >
+
+                            <label
+                                class="checkbox-label"
+                                for="madeWithAI"
+                            >
+                                Made with AI
+                            </label>
+
+                        </div>
+
+
+                        <!-- Promoted only -->
+
+                        <div class="checkbox-row">
+
+                            <input
+                                class="checkbox"
+                                type="checkbox"
+                                id="promotedOnly"
+                            >
+
+                            <label
+                                class="checkbox-label"
+                                for="promotedOnly"
+                            >
+                                Promoted only
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- NOTE -->
+
+                    <p class="note">
+
+                        <span class="note-badge">
+                            NOTE
+                        </span>
+
+                        Promoted-only posts are still "live".
+                        If you mention an X user, they will get
+                        a notification with a link to the post.
+
+                        <a
+                            class="note-link"
+                            href="#"
+                        >
+                            Learn more
+                        </a>
+
+                    </p>
+
+                </section>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 RIGHT SIDE - PREVIEW
+            ================================================== -->
+
+            <aside class="preview-section">
+
+                <h2 class="preview-title">
+                    Preview
+                </h2>
+
+
+                <div class="phone">
+
+                    <div class="phone-screen">
+
+                        <div class="phone-notch"></div>
+
+
+                        <!-- PHONE STATUS -->
+
+                        <div class="phone-status">
+
+                            <span>
+                                9:41
+                            </span>
+
+
+                            <div class="status-icons">
+
+                                <span class="status-icon"></span>
+
+                                <span class="status-icon"></span>
+
+                                <span class="status-icon"></span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PHONE FEED -->
+
+                        <div class="preview-feed">
+
+
+                            <!-- TOP SKELETON -->
+
+                            <div class="skeleton-post">
+
+                                <div class="skeleton-avatar"></div>
+
+
+                                <div class="skeleton-content">
+
+                                    <div class="skeleton-line short"></div>
+
+                                    <div class="skeleton-line full"></div>
+
+                                    <div class="skeleton-line medium"></div>
+
+                                    <div class="skeleton-line short"></div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ACTUAL POST -->
+
+                            <article class="preview-post">
+
+                                <div class="preview-post-header">
+
+
+                                    <!-- Avatar -->
+
+                                    <div class="preview-avatar">
+
+                                        <img
+                                            src="https://pbs.twimg.com/profile_images/2041948336929042433/F5I82_oY_normal.jpg"
+                                            alt="Profile"
+                                        >
+
+                                    </div>
+
+
+                                    <!-- Post -->
+
+                                    <div class="preview-post-content">
+
+
+                                        <div class="preview-user">
+
+                                            <span class="preview-name">
+                                                Mr.Grumpy
+                                            </span>
+
+                                            <span class="verified-badge">
+                                                ✓
+                                            </span>
+
+                                            <span class="preview-handle">
+                                                @MrGrumpyRk
+                                            </span>
+
+                                        </div>
+
+
+                                        <!-- Post text -->
+
+                                        <div
+                                            class="preview-text"
+                                            id="previewText"
+                                        >
+                                            What's happening?
+                                        </div>
+
+
+                                        <!-- Preview media -->
+
+                                        <div
+                                            class="preview-media"
+                                            id="previewMedia"
+                                            style="display: none;"
+                                        >
+
+                                            <img
+                                                id="previewMediaImage"
+                                                src=""
+                                                alt="Preview"
+                                            >
+
+                                        </div>
+
+
+                                        <!-- Website -->
+
+                                        <div
+                                            class="preview-website"
+                                            id="previewWebsite"
+                                            style="display: none;"
+                                        >
+
+                                            <span
+                                                class="preview-website-url"
+                                                id="previewWebsiteUrl"
+                                            >
+                                                website.com
+                                            </span>
+
+                                            <span
+                                                class="preview-headline"
+                                                id="previewHeadline"
+                                            ></span>
+
+                                        </div>
+
+
+                                        <!-- Actions -->
+
+                                        <div class="preview-actions">
+
+                                            <span class="preview-action">
+                                                ♡
+                                            </span>
+
+                                            <span class="preview-action">
+                                                ↻
+                                            </span>
+
+                                            <span class="preview-action">
+                                                ♡
+                                            </span>
+
+                                            <span class="preview-action">
+                                                ↗
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+
+                            <!-- BOTTOM SKELETON -->
+
+                            <div class="skeleton-post">
+
+                                <div class="skeleton-avatar"></div>
+
+
+                                <div class="skeleton-content">
+
+                                    <div class="skeleton-line short"></div>
+
+                                    <div class="skeleton-line full"></div>
+
+                                    <div class="skeleton-line medium"></div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="skeleton-post">
+
+                                <div class="skeleton-avatar"></div>
+
+
+                                <div class="skeleton-content">
+
+                                    <div class="skeleton-line short"></div>
+
+                                    <div class="skeleton-line full"></div>
+
+                                    <div class="skeleton-line medium"></div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+        </div>
+
+    </main>
+
+
+    <script src="/js/script.js"></script>
+
+</body>
+
+</html>

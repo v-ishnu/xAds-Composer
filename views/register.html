@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accept Invitation - X Composer</title>
+    <link rel="stylesheet" href="/css/login.css" />
+    <style>
+      .invalid-banner {
+        background: rgba(244, 33, 46, 0.1);
+        border: 1px solid rgba(244, 33, 46, 0.4);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 20px;
+        color: #f4212e;
+        font-size: 14px;
+        line-height: 1.5;
+        display: none;
+      }
+      .invalid-banner a {
+        color: #1d9bf0;
+        text-decoration: underline;
+      }
+      .password-hint {
+        font-size: 12px;
+        color: #71767b;
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="login-container">
+      <div class="login-card">
+        <div class="logo">𝕏</div>
+
+        <h1>Join X Composer</h1>
+        <p class="subtitle">Complete your invitation to access the Ads Platform.</p>
+
+        <div id="invalidBanner" class="invalid-banner"></div>
+
+        <form id="registerForm" style="display: none;">
+          <div class="input-group">
+            <label for="email">Invited Email</label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              readonly
+              style="opacity: 0.7; cursor: not-allowed;"
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="e.g. Alex Smith"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="password">Create Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="At least 8 chars, 1 uppercase, 1 number"
+              required
+            />
+            <p class="password-hint">Must be 8+ characters with uppercase and number.</p>
+          </div>
+
+          <button type="submit" class="login-btn" id="submitBtn">Create Account</button>
+          <p id="registerMessage" class="login-message"></p>
+        </form>
+
+        <p style="margin-top: 24px; text-align: center; font-size: 13px; color: #71767b;">
+          Already have an account? <a href="/login" style="color: #1d9bf0; text-decoration: none;">Sign in</a>
+        </p>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      const invalidBanner = document.getElementById("invalidBanner");
+      const registerForm = document.getElementById("registerForm");
+      const emailInput = document.getElementById("email");
+      const submitBtn = document.getElementById("submitBtn");
+      const registerMessage = document.getElementById("registerMessage");
+
+      async function verifyInvitation() {
+        if (!token) {
+          showError("No invitation token provided. Public registration is disabled on this platform. Please contact your Super Admin for an invitation link.");
+          return;
+        }
+
+        try {
+          const res = await axios.get(`/api/auth/verify-invite?token=${encodeURIComponent(token)}`);
+          if (res.data.success) {
+            emailInput.value = res.data.email;
+            registerForm.style.display = "block";
+          }
+        } catch (err) {
+          const msg = err.response?.data?.error || "This invitation link is invalid or has expired.";
+          showError(`${msg} <br><br><a href="/login">Return to Sign In</a>`);
+        }
+      }
+
+      function showError(html) {
+        invalidBanner.innerHTML = html;
+        invalidBanner.style.display = "block";
+        registerForm.style.display = "none";
+      }
+
+      registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const name = document.getElementById("name").value.trim();
+        const password = document.getElementById("password").value;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Setting up account...";
+        registerMessage.textContent = "";
+
+        try {
+          const res = await axios.post("/api/auth/accept-invite", {
+            token,
+            name,
+            password,
+          });
+
+          registerMessage.textContent = "Account created successfully! Redirecting...";
+          registerMessage.style.color = "#00ba7c";
+
+          setTimeout(() => {
+            window.location.href = "/dashboard";
+          }, 600);
+        } catch (err) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Create Account";
+          registerMessage.style.color = "#f4212e";
+          registerMessage.textContent = err.response?.data?.error || "Failed to complete registration.";
+        }
+      });
+
+      verifyInvitation();
+    </script>
+  </body>
+</html>
+

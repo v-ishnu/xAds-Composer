@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - 𝕏 Composer Ads Platform</title>
+
+  <!-- Composer & Device Simulator Base Stylesheet (Preserved) -->
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- SaaS Dashboard Stylesheet -->
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- =========================================================
+       SIDEBAR NAVIGATION
+       ========================================================= -->
+  <aside class="app-sidebar">
+    <div class="sidebar-header">
+      <div class="brand-logo">𝕏</div>
+      <div class="brand-info">
+        <span class="brand-title">Composer</span>
+        <span class="brand-subtitle">Ads Platform</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Workspace</div>
+
+      <button class="nav-item active" data-tab="tab-overview">
+        <span class="nav-icon">📊</span>
+        <span>Overview</span>
+      </button>
+
+      <button class="nav-item" data-tab="tab-accounts">
+        <span class="nav-icon">𝕏</span>
+        <span>𝕏 Accounts</span>
+      </button>
+
+      <button class="nav-item" data-tab="tab-ad-accounts">
+        <span class="nav-icon">💼</span>
+        <span>Ad Accounts</span>
+      </button>
+
+      <button class="nav-item" data-tab="tab-campaigns">
+        <span class="nav-icon">🚀</span>
+        <span>Campaigns</span>
+      </button>
+
+      <button class="nav-item" data-tab="tab-line-items">
+        <span class="nav-icon">📑</span>
+        <span>Ad Groups</span>
+      </button>
+
+      <button class="nav-item" data-tab="tab-creatives">
+        <span class="nav-icon">🎨</span>
+        <span>Creatives</span>
+      </button>
+
+      <button class="nav-item" data-tab="tab-composer">
+        <span class="nav-icon">✍️</span>
+        <span>Post Composer</span>
+      </button>
+
+      <button class="nav-item" data-tab="tab-analytics">
+        <span class="nav-icon">📈</span>
+        <span>Analytics</span>
+      </button>
+
+      <button class="nav-item" data-tab="tab-drafts">
+        <span class="nav-icon">📁</span>
+        <span>Drafts</span>
+      </button>
+
+      <button class="nav-item" data-tab="tab-settings">
+        <span class="nav-icon">⚙️</span>
+        <span>Settings</span>
+      </button>
+
+      <!-- Super Admin Navigation (Dynamically shown) -->
+      <div id="adminNavSection" style="display: none;">
+        <div class="nav-section-title">Administration</div>
+        <button class="nav-item" data-tab="tab-admin">
+          <span class="nav-icon">🛡️</span>
+          <span>Admin Portal</span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-snippet">
+        <div class="user-avatar-small" id="userAvatarSnippet">U</div>
+        <div class="user-details-small">
+          <span class="user-name-small" id="userNameSnippet">User</span>
+          <span class="user-role-badge" id="userRoleBadge">User</span>
+        </div>
+      </div>
+      <button class="logout-btn-icon" id="logoutBtn" title="Log out">⏻</button>
+    </div>
+  </aside>
+
+  <!-- =========================================================
+       MAIN APP CONTAINER & TOPBAR
+       ========================================================= -->
+  <main class="app-main">
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <h1 class="page-headline" id="pageHeadline">Overview</h1>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Active 𝕏 Account Switcher -->
+        <div class="account-switcher-wrap">
+          <button class="account-pill" id="accountSwitcherBtn">
+            <img src="https://pbs.twimg.com/profile_images/2041948336929042433/F5I82_oY_normal.jpg" class="account-pill-avatar" id="activeAccountAvatar" alt="Avatar">
+            <span class="account-pill-handle" id="activeAccountHandle">Select Account</span>
+            <span style="font-size: 10px; opacity: 0.7;">▼</span>
+          </button>
+
+          <div class="account-dropdown-menu" id="accountDropdownMenu">
+            <span class="dropdown-header-label">Switch Workspace Account</span>
+            <div id="accountDropdownList"></div>
+            <button class="dropdown-action-btn" id="connectNewAccountFromTop">
+              <span>＋</span> Connect new 𝕏 account
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Launch Campaign Button -->
+        <button class="btn-primary-action" id="launchCampaignWizardBtn">
+          <span>＋</span> New Campaign
+        </button>
+      </div>
+    </header>
+
+    <!-- =========================================================
+         TAB 1: OVERVIEW DASHBOARD
+         ========================================================= -->
+    <section class="tab-pane active-tab" id="tab-overview">
+      <!-- Diagnostics / Integration Status Banner -->
+      <div id="overviewDiagnosticsContainer"></div>
+
+      <!-- KPI Summary Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">Total Spend</span>
+          <span class="kpi-value" id="kpiTotalSpend">$0.00</span>
+          <span class="kpi-subtext">Across active campaigns</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Impressions</span>
+          <span class="kpi-value" id="kpiTotalImpressions">0</span>
+          <span class="kpi-subtext">Total ad deliveries</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Engagements</span>
+          <span class="kpi-value" id="kpiTotalEngagements">0</span>
+          <span class="kpi-subtext">Likes, replies & reposts</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Link Clicks</span>
+          <span class="kpi-value" id="kpiTotalClicks">0</span>
+          <span class="kpi-subtext">Website destination visits</span>
+        </div>
+      </div>
+
+      <!-- Recent Campaigns Table -->
+      <div class="content-card">
+        <div class="content-card-header">
+          <h2 class="content-card-title">Recent Campaigns</h2>
+          <button class="btn btn-sm btn-outline" onclick="switchTab('tab-campaigns')">View All</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Campaign Name</th>
+                <th>Objective</th>
+                <th>Daily Budget</th>
+                <th>Status</th>
+                <th>Freshness</th>
+              </tr>
+            </thead>
+            <tbody id="overviewCampaignsTbody">
+              <tr>
+                <td colspan="5" class="empty-state-box">Loading campaigns...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 2: 𝕏 ACCOUNTS MANAGEMENT
+         ========================================================= -->
+    <section class="tab-pane" id="tab-accounts">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800;">Connected 𝕏 Accounts</h2>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+            Connect multiple independent 𝕏 accounts using official OAuth 2.0 PKCE authentication.
+          </p>
+        </div>
+        <button class="btn btn-accent" id="addXAccountBtn">
+          <span>＋</span> Connect 𝕏 Account
+        </button>
+      </div>
+
+      <div class="accounts-grid" id="accountsGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 3: ADVERTISING ACCOUNTS
+         ========================================================= -->
+    <section class="tab-pane" id="tab-ad-accounts">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800;">Advertising Accounts</h2>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+            Advertiser accounts associated with your connected 𝕏 accounts on the X Ads platform.
+          </p>
+        </div>
+        <button class="btn btn-outline" id="refreshAdAccountsBtn">
+          <span>↻</span> Refresh from X Ads
+        </button>
+      </div>
+
+      <div class="content-card">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Account Name</th>
+                <th>X Ads ID</th>
+                <th>Connected Handle</th>
+                <th>Currency</th>
+                <th>Timezone</th>
+                <th>Approval Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adAccountsTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 4: CAMPAIGNS
+         ========================================================= -->
+    <section class="tab-pane" id="tab-campaigns">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800;">Campaigns</h2>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+            Create, pause, resume, and monitor official X Ads advertising campaigns.
+          </p>
+        </div>
+        <button class="btn btn-accent" onclick="openCampaignWizard()">
+          <span>＋</span> Create Campaign
+        </button>
+      </div>
+
+      <div class="content-card">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Objective</th>
+                <th>Budget / Day</th>
+                <th>Status</th>
+                <th>Start Date</th>
+                <th>External ID</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="campaignsTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 5: AD GROUPS (LINE ITEMS)
+         ========================================================= -->
+    <section class="tab-pane" id="tab-line-items">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800;">Ad Groups & Line Items</h2>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+            Bidding strategies, billing events, placements, and audience targeting rules.
+          </p>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Ad Group Name</th>
+                <th>Campaign</th>
+                <th>Bid Amount</th>
+                <th>Strategy</th>
+                <th>Billing Event</th>
+                <th>Placements</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="lineItemsTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 6: CREATIVES
+         ========================================================= -->
+    <section class="tab-pane" id="tab-creatives">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800;">Creatives Gallery</h2>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+            Promoted posts, website cards, and media assets configured for ad delivery.
+          </p>
+        </div>
+        <button class="btn btn-accent" onclick="switchTab('tab-composer')">
+          <span>＋</span> Compose in Post Composer
+        </button>
+      </div>
+
+      <div class="content-card">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Creative Name</th>
+                <th>Text</th>
+                <th>Headline & URL</th>
+                <th>Media</th>
+                <th>Flags</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="creativesTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 7: POST COMPOSER & PHONE SIMULATOR (100% PRESERVED VIEW)
+         ========================================================= -->
+    <section class="tab-pane" id="tab-composer">
+      <!-- Embedded exact original layout from views/index.html -->
+      <main class="composer-page">
+        <header class="composer-header">
+          <h1 class="composer-title">Duplicate post</h1>
+          <div class="post-type-container">
+            <button class="post-button" id="postButton" type="button">Post to 𝕏</button>
+            <button class="post-dropdown" id="saveDraftBtn" type="button" title="Save as Draft" style="font-size: 12px; padding: 0 10px;">💾 Save Draft</button>
+          </div>
+        </header>
+
+        <div class="composer-layout">
+          <!-- LEFT SIDE: FORM -->
+          <section class="composer-card">
+            <!-- NAME -->
+            <div class="form-group">
+              <label class="form-label" for="creativeName">
+                <span>Name</span>
+                <span class="form-label-counter" id="nameCounter">18/255</span>
+              </label>
+              <input class="form-input" id="creativeName" type="text" maxlength="255" placeholder="Untitled ad (optional)" value="[Copy] Untitled ad">
+            </div>
+
+            <!-- ACCOUNT BAR -->
+            <div class="account-bar">
+              <div class="account-avatar">
+                <img id="composerProfileImg" src="https://pbs.twimg.com/profile_images/2041948336929042433/F5I82_oY_normal.jpg" alt="Profile">
+              </div>
+              <div class="account-info">
+                <span class="account-name" id="composerDisplayName">Mr.Grumpy</span>
+                <span class="verified-badge">✓</span>
+                <span class="account-username" id="composerUsername">@MrGrumpyRk</span>
+              </div>
+            </div>
+
+            <!-- POST TEXT -->
+            <div class="form-group">
+              <label class="form-label" for="postText">
+                <span>Post text</span>
+              </label>
+              <textarea class="post-textarea" id="postText" maxlength="280" placeholder="What's happening?"></textarea>
+              <div class="textarea-bottom">
+                <button class="reply-selector" type="button">
+                  <span class="globe-icon">◉</span>
+                  <span>Everyone can reply</span>
+                  <span>▼</span>
+                </button>
+                <span class="character-count" id="characterCount">0</span>
+              </div>
+            </div>
+
+            <!-- DESTINATION -->
+            <section class="destination-section">
+              <span class="section-label">Destination</span>
+              <button class="destination-card active" id="websiteDestination" type="button">
+                <span class="destination-content">
+                  <span class="destination-title">Website</span>
+                  <span class="destination-description">Include a call to action to your website.</span>
+                </span>
+                <span class="destination-check" id="destinationCheck">✓</span>
+              </button>
+
+              <div class="website-details" id="websiteDetails">
+                <div class="form-group website-field">
+                  <label class="form-label" for="websiteUrl">
+                    <span>Website URL <span class="required-star">*</span></span>
+                  </label>
+                  <div class="url-input-wrapper">
+                    <span class="url-prefix">https://</span>
+                    <input class="form-input url-input" id="websiteUrl" type="text" placeholder="example.com">
+                  </div>
+                </div>
+
+                <div class="form-group website-field">
+                  <label class="form-label" for="headline">
+                    <span>Headline <span class="optional-text">(optional)</span></span>
+                  </label>
+                  <input class="form-input" id="headline" type="text" maxlength="70" placeholder="Enter a headline">
+                </div>
+              </div>
+            </section>
+
+            <!-- MEDIA -->
+            <section class="media-section">
+              <div class="media-label">
+                <span>Media</span>
+                <span class="media-required">*</span>
+                <span class="media-required-text">Required for card ads</span>
+              </div>
+
+              <div class="media-item" id="mediaItem" style="display: none;">
+                <div class="media-thumbnail">
+                  <img id="mediaThumbnail" src="" alt="Selected media">
+                </div>
+                <div class="media-details">
+                  <p class="media-name" id="mediaName">Image</p>
+                  <p class="media-date">Selected media</p>
+                </div>
+                <button class="remove-media" id="removeMedia" type="button">Remove</button>
+              </div>
+
+              <div class="media-buttons">
+                <button class="media-button" id="addMediaButton" type="button">
+                  <span>＋</span> Add media
+                </button>
+                <button class="media-button" id="generateImageButton" type="button">
+                  <span>◇</span> Generate image
+                </button>
+              </div>
+              <input type="file" id="mediaInput" accept="image/*,video/*" hidden>
+            </section>
+
+            <!-- OPTIONS -->
+            <section class="options-section">
+              <div class="checkbox-group">
+                <div class="checkbox-row">
+                  <input class="checkbox" type="checkbox" id="madeWithAI">
+                  <label class="checkbox-label" for="madeWithAI">Made with AI</label>
+                </div>
+                <div class="checkbox-row">
+                  <input class="checkbox" type="checkbox" id="promotedOnly">
+                  <label class="checkbox-label" for="promotedOnly">Promoted only</label>
+                </div>
+              </div>
+              <p class="note">
+                <span class="note-badge">NOTE</span>
+                Promoted-only posts are still "live". If you mention an X user, they will get a notification with a link to the post.
+                <a class="note-link" href="#">Learn more</a>
+              </p>
+            </section>
+          </section>
+
+          <!-- RIGHT SIDE: SIMULATED IPHONE FEED PREVIEW -->
+          <aside class="preview-section">
+            <h2 class="preview-title">Preview</h2>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="phone-notch"></div>
+                <div class="phone-status">
+                  <span>9:41</span>
+                  <div class="status-icons">
+                    <span class="status-icon"></span>
+                    <span class="status-icon"></span>
+                    <span class="status-icon"></span>
+                  </div>
+                </div>
+
+                <div class="preview-feed">
+                  <!-- Top skeleton -->
+                  <div class="skeleton-post">
+                    <div class="skeleton-avatar"></div>
+                    <div class="skeleton-content">
+                      <div class="skeleton-line short"></div>
+                      <div class="skeleton-line full"></div>
+                      <div class="skeleton-line medium"></div>
+                      <div class="skeleton-line short"></div>
+                    </div>
+                  </div>
+
+                  <!-- Actual live preview post -->
+                  <article class="preview-post">
+                    <div class="preview-post-header">
+                      <div class="preview-avatar">
+                        <img id="previewAvatarImg" src="https://pbs.twimg.com/profile_images/2041948336929042433/F5I82_oY_normal.jpg" alt="Profile">
+                      </div>
+                      <div class="preview-post-content">
+                        <div class="preview-user">
+                          <span class="preview-name" id="previewDisplayName">Mr.Grumpy</span>
+                          <span class="verified-badge">✓</span>
+                          <span class="preview-handle" id="previewHandle">@MrGrumpyRk</span>
+                        </div>
+                        <div class="preview-text" id="previewText">What's happening?</div>
+                        <div class="preview-media" id="previewMedia" style="display: none;">
+                          <img id="previewMediaImage" src="" alt="Preview">
+                        </div>
+                        <div class="preview-website" id="previewWebsite" style="display: none;">
+                          <span class="preview-website-url" id="previewWebsiteUrl">website.com</span>
+                          <span class="preview-headline" id="previewHeadline"></span>
+                        </div>
+                        <div class="preview-actions">
+                          <span class="preview-action">♡</span>
+                          <span class="preview-action">↻</span>
+                          <span class="preview-action">♡</span>
+                          <span class="preview-action">↗</span>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+
+                  <!-- Bottom skeletons -->
+                  <div class="skeleton-post">
+                    <div class="skeleton-avatar"></div>
+                    <div class="skeleton-content">
+                      <div class="skeleton-line short"></div>
+                      <div class="skeleton-line full"></div>
+                      <div class="skeleton-line medium"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </section>
+
+    <!-- =========================================================
+         TAB 8: ANALYTICS
+         ========================================================= -->
+    <section class="tab-pane" id="tab-analytics">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800;">Campaign Performance Analytics</h2>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+            Actual data directly retrieved from the official X Ads API. Data freshness indicators displayed per campaign.
+          </p>
+        </div>
+        <button class="btn btn-outline" id="refreshAnalyticsBtn">
+          <span>↻</span> Refresh Stats
+        </button>
+      </div>
+
+      <div id="analyticsStatusNotice"></div>
+
+      <div class="content-card">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Campaign</th>
+                <th>Spend</th>
+                <th>Impressions</th>
+                <th>Engagements</th>
+                <th>Clicks</th>
+                <th>CTR</th>
+                <th>Status</th>
+                <th>Data Freshness</th>
+              </tr>
+            </thead>
+            <tbody id="analyticsTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 9: DRAFTS
+         ========================================================= -->
+    <section class="tab-pane" id="tab-drafts">
+      <div style="margin-bottom: 20px;">
+        <h2 style="font-size: 20px; font-weight: 800;">Saved Drafts</h2>
+        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+          Manage and resume composing unpublished post and creative drafts.
+        </p>
+      </div>
+
+      <div class="content-card">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Draft Title</th>
+                <th>Text Excerpt</th>
+                <th>Destination</th>
+                <th>Account</th>
+                <th>Last Saved</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="draftsTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 10: SETTINGS
+         ========================================================= -->
+    <section class="tab-pane" id="tab-settings">
+      <div style="margin-bottom: 20px;">
+        <h2 style="font-size: 20px; font-weight: 800;">Account & Platform Settings</h2>
+        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+          Workspace configuration and API connection diagnostics.
+        </p>
+      </div>
+
+      <div class="content-card" style="padding: 24px; max-width: 600px;">
+        <h3 style="font-size: 16px; margin-bottom: 16px;">User Profile</h3>
+        <div class="form-field" style="margin-bottom: 14px;">
+          <label>Full Name</label>
+          <input type="text" id="settingsUserName" readonly style="opacity: 0.7;">
+        </div>
+        <div class="form-field" style="margin-bottom: 14px;">
+          <label>Email Address</label>
+          <input type="text" id="settingsUserEmail" readonly style="opacity: 0.7;">
+        </div>
+        <div class="form-field">
+          <label>Platform Role</label>
+          <input type="text" id="settingsUserRole" readonly style="opacity: 0.7;">
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 11: SUPER ADMIN PORTAL (SUPER ADMIN ONLY)
+         ========================================================= -->
+    <section class="tab-pane" id="tab-admin">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800;">Super Admin Control Center</h2>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+            Full platform tenant management, invitation issuance, audit logs, and X API credential management.
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-outline" id="openDirectUserModalBtn">＋ Create User</button>
+          <button class="btn btn-accent" id="openInviteModalBtn">✉ Issue Invitation</button>
+        </div>
+      </div>
+
+      <!-- Admin Platform Stats -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">Total Users</span>
+          <span class="kpi-value" id="adminTotalUsers">0</span>
+          <span class="kpi-subtext" id="adminActiveVsSuspended">0 active / 0 suspended</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Connected 𝕏 Accounts</span>
+          <span class="kpi-value" id="adminTotalConnectedX">0</span>
+          <span class="kpi-subtext">Across all user workspaces</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Advertising Accounts</span>
+          <span class="kpi-value" id="adminTotalAdAccounts">0</span>
+          <span class="kpi-subtext">Active advertiser profiles</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Total Campaigns</span>
+          <span class="kpi-value" id="adminTotalCampaigns">0</span>
+          <span class="kpi-subtext">All time created</span>
+        </div>
+      </div>
+
+      <!-- Registered Users Management Table -->
+      <div class="content-card">
+        <div class="content-card-header">
+          <h3 class="content-card-title">Registered Users</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name & Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>𝕏 Accounts</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminUsersTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Invitations Management Table -->
+      <div class="content-card">
+        <div class="content-card-header">
+          <h3 class="content-card-title">Pending & Issued Invitations</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Recipient Email</th>
+                <th>Status</th>
+                <th>Issued By</th>
+                <th>Expires</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminInvitationsTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Platform Settings & Official API Credentials -->
+      <div class="content-card" style="padding: 24px;">
+        <h3 class="content-card-title" style="margin-bottom: 16px;">Platform X API Credentials</h3>
+        <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 20px;">
+          Configure your official X Developer App credentials. Tokens are encrypted at rest using AES-256-GCM.
+        </p>
+        <form id="platformSettingsForm">
+          <div class="form-row">
+            <div class="form-field">
+              <label>X OAuth 2.0 Client ID</label>
+              <input type="text" id="settingClientId" placeholder="Enter Client ID">
+            </div>
+            <div class="form-field">
+              <label>X OAuth 2.0 Client Secret</label>
+              <input type="password" id="settingClientSecret" placeholder="•••••••••••• (Leave blank to keep unchanged)">
+            </div>
+          </div>
+          <div class="form-field" style="margin-top: 14px;">
+            <label>OAuth 2.0 Redirect URI</label>
+            <input type="text" id="settingRedirectUri" value="http://localhost:3000/api/x-accounts/callback">
+          </div>
+          <div class="form-row" style="margin-top: 14px;">
+            <div class="form-field">
+              <label>X Ads Consumer Key (OAuth 1.0a)</label>
+              <input type="password" id="settingAdsKey" placeholder="Optional consumer key">
+            </div>
+            <div class="form-field">
+              <label>X Ads Consumer Secret (OAuth 1.0a)</label>
+              <input type="password" id="settingAdsSecret" placeholder="Optional consumer secret">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-accent" style="margin-top: 20px;">Save Credentials</button>
+          <span id="settingsSaveStatus" style="margin-left: 14px; font-size: 13px;"></span>
+        </form>
+      </div>
+
+      <!-- Audit Logs Table -->
+      <div class="content-card">
+        <div class="content-card-header">
+          <h3 class="content-card-title">Platform Audit Logs</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>User</th>
+                <th>Category</th>
+                <th>Action</th>
+                <th>IP Address</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="adminAuditLogsTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       MODAL 1: 6-STEP GUIDED CAMPAIGN CREATION WIZARD
+       ========================================================= -->
+  <div class="modal-backdrop" id="campaignWizardModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="wizardModalTitle">Create Campaign (Guided Workflow)</h3>
+        <button class="modal-close-btn" onclick="closeCampaignWizard()">✕</button>
+      </div>
+
+      <!-- Step Indicator (1 to 6) -->
+      <div class="wizard-steps-indicator">
+        <div class="wizard-step-node active" id="wizardNode1">1. Account</div>
+        <div class="wizard-step-node" id="wizardNode2">2. Campaign</div>
+        <div class="wizard-step-node" id="wizardNode3">3. Ad Group</div>
+        <div class="wizard-step-node" id="wizardNode4">4. Targeting</div>
+        <div class="wizard-step-node" id="wizardNode5">5. Creative</div>
+        <div class="wizard-step-node" id="wizardNode6">6. Review</div>
+      </div>
+
+      <div class="modal-body">
+        <!-- STEP 1: SELECT ACCOUNT -->
+        <div class="wizard-step-content" id="wizardStep1">
+          <h4 style="font-size: 15px; margin-bottom: 12px;">Step 1: Select 𝕏 & Advertising Account</h4>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label>Connected 𝕏 Account</label>
+            <select id="wizardSelectXAccount"></select>
+          </div>
+          <div class="form-field">
+            <label>Associated Advertising Account</label>
+            <select id="wizardSelectAdAccount"></select>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">
+            Only verified advertiser accounts with approved access to the official X Ads API can publish active campaigns.
+          </p>
+        </div>
+
+        <!-- STEP 2: CAMPAIGN CONFIGURATION -->
+        <div class="wizard-step-content" id="wizardStep2" style="display: none;">
+          <h4 style="font-size: 15px; margin-bottom: 12px;">Step 2: Campaign Objective & Budget</h4>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label>Campaign Name</label>
+            <input type="text" id="wizardCampaignName" placeholder="e.g. Q4 Website Traffic Campaign">
+          </div>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label>Campaign Objective</label>
+            <select id="wizardCampaignObjective">
+              <option value="WEBSITE_TRAFFIC">Website Clicks / Traffic</option>
+              <option value="ENGAGEMENTS">Post Engagements</option>
+              <option value="REACH">Reach & Impressions</option>
+              <option value="VIDEO_VIEWS">Video Views</option>
+              <option value="FOLLOWERS">Follower Growth</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Daily Budget (USD $)</label>
+              <input type="number" id="wizardDailyBudget" min="1" step="0.5" value="10.00">
+            </div>
+            <div class="form-field">
+              <label>Total Budget (USD $, Optional)</label>
+              <input type="number" id="wizardTotalBudget" placeholder="Unlimited">
+            </div>
+          </div>
+          <div class="form-row" style="margin-top: 14px;">
+            <div class="form-field">
+              <label>Start Date</label>
+              <input type="datetime-local" id="wizardStartDate">
+            </div>
+            <div class="form-field">
+              <label>End Date (Optional)</label>
+              <input type="datetime-local" id="wizardEndDate">
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: AD GROUP CONFIGURATION -->
+        <div class="wizard-step-content" id="wizardStep3" style="display: none;">
+          <h4 style="font-size: 15px; margin-bottom: 12px;">Step 3: Ad Group & Bidding Strategy</h4>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label>Ad Group / Line Item Name</label>
+            <input type="text" id="wizardAdGroupName" placeholder="e.g. US Tech Enthusiasts">
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Bidding Strategy</label>
+              <select id="wizardBidStrategy">
+                <option value="AUTO">Automatic Bid (Recommended)</option>
+                <option value="MAX">Maximum Bid</option>
+                <option value="TARGET">Target Cost</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Target / Max Bid ($)</label>
+              <input type="number" id="wizardBidAmount" min="0.10" step="0.05" value="1.50">
+            </div>
+          </div>
+          <div class="form-field" style="margin-top: 14px;">
+            <label>Placements</label>
+            <select id="wizardPlacements">
+              <option value="ALL_ON_TWITTER">All on 𝕏 (Timelines, Profiles, Search)</option>
+              <option value="TWITTER_TIMELINE">Home Timeline Only</option>
+              <option value="TWITTER_SEARCH">Search Results Only</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- STEP 4: AUDIENCE TARGETING -->
+        <div class="wizard-step-content" id="wizardStep4" style="display: none;">
+          <h4 style="font-size: 15px; margin-bottom: 12px;">Step 4: Official Audience Targeting</h4>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Target Location</label>
+              <select id="wizardTargetLocation">
+                <option value="US">United States</option>
+                <option value="GB">United Kingdom</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+                <option value="DE">Germany</option>
+                <option value="GLOBAL">Worldwide</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Language</label>
+              <select id="wizardTargetLanguage">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row" style="margin-top: 14px;">
+            <div class="form-field">
+              <label>Gender</label>
+              <select id="wizardTargetGender">
+                <option value="ANY">Any Gender</option>
+                <option value="MALE">Men</option>
+                <option value="FEMALE">Women</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Age Range</label>
+              <select id="wizardTargetAge">
+                <option value="AGE_ALL">All Ages (18+)</option>
+                <option value="AGE_18_TO_34">18 to 34</option>
+                <option value="AGE_21_TO_49">21 to 49</option>
+                <option value="AGE_25_TO_54">25 to 54</option>
+                <option value="AGE_35_TO_64">35 to 64</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field" style="margin-top: 14px;">
+            <label>Interest Category</label>
+            <select id="wizardTargetInterest">
+              <option value="tech">Technology & Computing</option>
+              <option value="business">Business & Finance</option>
+              <option value="marketing">Marketing & Advertising</option>
+              <option value="crypto">Cryptocurrency & Web3</option>
+              <option value="gaming">Gaming & Esports</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- STEP 5: CREATIVE CONFIGURATION -->
+        <div class="wizard-step-content" id="wizardStep5" style="display: none;">
+          <h4 style="font-size: 15px; margin-bottom: 12px;">Step 5: Creative Copy & Card Settings</h4>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label>Post Text (Max 280 chars) *</label>
+            <textarea id="wizardCreativeText" maxlength="280" rows="3" placeholder="Engage your target audience..."></textarea>
+          </div>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label>Destination Website URL</label>
+            <input type="text" id="wizardCreativeUrl" placeholder="https://example.com/promo">
+          </div>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label>Website Card Headline</label>
+            <input type="text" id="wizardCreativeHeadline" maxlength="70" placeholder="e.g. Try X Composer Today">
+          </div>
+          <div style="display: flex; gap: 20px;">
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px;">
+              <input type="checkbox" id="wizardCreativePromotedOnly" checked> Promoted Only
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px;">
+              <input type="checkbox" id="wizardCreativeMadeWithAI"> Made with AI
+            </label>
+          </div>
+        </div>
+
+        <!-- STEP 6: REVIEW & EXPLICIT CONFIRMATION -->
+        <div class="wizard-step-content" id="wizardStep6" style="display: none;">
+          <h4 style="font-size: 15px; margin-bottom: 12px;">Step 6: Review & Confirmation</h4>
+          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+            Review your campaign specifications. No requests are dispatched to official X APIs until you explicitly confirm.
+          </p>
+          <div class="preview-summary-card" id="wizardSummaryCard">
+            <!-- Dynamically populated -->
+          </div>
+          <div style="margin-top: 16px; background: rgba(29, 155, 240, 0.1); border: 1px solid rgba(29, 155, 240, 0.3); border-radius: 10px; padding: 14px;">
+            <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer;">
+              <input type="checkbox" id="wizardExplicitConfirmation" style="margin-top: 2px;">
+              <span>I confirm that I want to create this campaign and authorize dispatching real requests to the official X Ads API with the specified daily budget.</span>
+            </label>
+          </div>
+          <div id="wizardErrorMessage" style="color: var(--status-danger); font-size: 13px; margin-top: 10px; display: none;"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="wizardBackBtn" onclick="wizardPrevStep()" disabled>Back</button>
+        <button class="btn btn-accent" id="wizardNextBtn" onclick="wizardNextStep()">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 2: INVITE USER (SUPER ADMIN ONLY)
+       ========================================================= -->
+  <div class="modal-backdrop" id="inviteUserModal">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Invite User</h3>
+        <button class="modal-close-btn" onclick="closeInviteModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-secondary);">
+          Public registration is disabled. Issue an invitation token with a 48-hour expiration for the specified email.
+        </p>
+        <div class="form-field" style="margin-top: 10px;">
+          <label>Recipient Email Address</label>
+          <input type="email" id="inviteRecipientEmail" placeholder="colleague@example.com" required>
+        </div>
+        <div id="inviteResultBox" style="display: none; margin-top: 14px; background: rgba(0, 186, 124, 0.1); border: 1px solid rgba(0, 186, 124, 0.3); border-radius: 8px; padding: 12px; font-size: 13px;">
+          <span style="color: var(--status-success); font-weight: 700;">Invitation Link Generated:</span>
+          <input type="text" id="generatedInviteLink" readonly style="width: 100%; margin-top: 6px; font-size: 12px;">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeInviteModal()">Close</button>
+        <button class="btn btn-accent" id="sendInviteBtn">Generate Invitation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 3: DIRECT CREATE USER (SUPER ADMIN ONLY)
+       ========================================================= -->
+  <div class="modal-backdrop" id="directUserModal">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Create User Account</h3>
+        <button class="modal-close-btn" onclick="closeDirectUserModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-field" style="margin-bottom: 12px;">
+          <label>Full Name</label>
+          <input type="text" id="directUserName" placeholder="Full name" required>
+        </div>
+        <div class="form-field" style="margin-bottom: 12px;">
+          <label>Email Address</label>
+          <input type="email" id="directUserEmail" placeholder="user@example.com" required>
+        </div>
+        <div class="form-field" style="margin-bottom: 12px;">
+          <label>Temporary Password</label>
+          <input type="password" id="directUserPassword" placeholder="8+ characters" required>
+        </div>
+        <div class="form-field">
+          <label>Role</label>
+          <select id="directUserRole">
+            <option value="user">Normal User</option>
+            <option value="super_admin">Super Admin</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeDirectUserModal()">Cancel</button>
+        <button class="btn btn-accent" id="submitDirectUserBtn">Create Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Axios CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- Composer & Device Simulator Script (Preserved) -->
+  <script src="/js/script.js"></script>
+
+  <!-- SaaS Dashboard Client Application -->
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
+
